@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+ 	<title>Match the Colour</title>
+
+ 	<meta charset="utf-8" />
+ 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+ 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+ </head>
+
+ <body>
+
+ 	<div id="start">
+ 		<h1>Match the colour</h1>
+ 		<button type='button'>Start Game</button>
+ 	</div>
+
+ 	<div id="next" style="display:none">
+ 		<div>
+ 			<p>Match this colour</p>
+ 			<p></p>
+ 		</div>
+ 		<ul>
+ 		</ul>
+ 	</div>
+
+
+ 	 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+ 	 <script>
+
+ 	 	$(function() {
+
+			var colors = ['blue','red','orange','green','purple','yellow','chocolate','brown','cyan','gold','grey','lime','maroon','navy','pink','silver'],
+			  	colorsCopy = colors.slice();
+ 	 		
+ 	 		$('body').css({
+
+ 	 			fontFamily: 'Avenir',
+ 	 		});
+
+
+ 	 		$('#next, #start').css('margin-top', function() {
+
+ 	 			return $(window).height()/6;
+ 	 		});
+
+
+ 	 		$('#start, #next').css('text-align','center');
+
+
+ 	 		$('p').css({
+
+ 	 			padding:'0',
+ 	 			margin:'0'
+ 	 		});
+ 	 	
+
+ 	 		$('#start button').css ({
+
+ 	 			color:'blue',
+ 	 			padding:'10px',
+ 	 			border:'2px solid blue',
+ 	 			fontSize:'1.2em'
+ 	 		});
+
+
+ 	 		$('button').hover(function() {
+
+ 	 			$(this).css('background-color','yellow');
+ 	 		}, function() {
+ 	 			$(this).css('background-color','white');
+ 	 		});
+
+
+ 	 		$('p:nth-child(2)').css('font-size','20px');
+
+
+ 	 		function randomColor() {
+
+ 	 			$('#next div').css('background-color',function() {
+
+ 	 				return colors[Math.floor(Math.random()*colors.length)];
+ 	 			});
+ 	 		};
+
+
+ 	 		function appendDivs() {
+
+ 				$(colors).each(function() {
+
+					$('#next ul').append('<li>0</li>');
+				});
+ 			};
+
+
+ 	 		$('button').click(function() {
+
+
+ 	 			$('#start').fadeOut('slow',function() {
+
+ 	 				$('#next').fadeIn('slow');
+ 	 			});
+
+
+ 	 			 $('ul').css({
+
+ 	 				padding:'0',
+ 	 				margin:'0'
+ 	 			});
+
+
+ 	 			$('#next').css({
+
+ 	 				height:'500px',
+ 	 				width:'400px',
+ 	 				marginLeft: 'auto',
+ 	 				marginRight: 'auto'
+ 	 			});
+
+ 	 			
+ 	 			$('#next div').css({
+
+ 	 				height:'100px',
+ 	 				width:'100%',
+ 	 				fontSize:'40px'
+ 	 			});
+
+ 	 			randomColor();
+				appendDivs();
+ 	 			
+
+ 	 			$('li').css({
+
+ 	 				width:'100px',
+ 	 				height:'100px',
+ 	 				backgroundColor:'blue',
+ 	 				'list-style-type':'none',
+ 	 				'float':'left',
+ 	 				border:'1px solid black',
+ 	 				'box-sizing': 'border-box'
+ 				});
+
+
+  				$('li').css('background-color', function() {
+
+  					var index = Math.floor(Math.random()*colorsCopy.length);
+ 	 				var color = colorsCopy[index];
+ 	 				colorsCopy.splice(index,1);
+ 					return color;
+  				});
+				
+			});
+
+ 	 		$('ul').on('click','li',function() {
+
+				if ($(this).css('background-color') == $('#next div').css('background-color')) {
+
+					$('p').eq(1).html("Correct :) Now try this colour...");
+					$(this).html(Number($(this).html())+1);
+					randomColor();
+
+				} else {
+
+					$('p').eq(1).html("Woops that's wrong, try again");
+				};
+			});		
+ 	 	});
+
+ 	 </script>
+ </body>
+
+ </html>
